@@ -34,7 +34,7 @@ Now that the sub query is aliased, the Emplid, Name, Social, Start and End dates
 
 To find all soldiers that need to be removed from the Personnel_DB (i.e. their time is greater than "today's date", but they are still on the Personnel_DB), the process is essentially the same except for the difference that the script checks if each record is still in Personnel_DB, and if the time is greater than "today's" date.
 
-SELECT Emplid, Name, Social, Start, End
+`SELECT Emplid, Name, Social, Start, End
 FROM (
   SELECT [Connective_DB].emplid AS Emplid, [Mission_DB].name AS Name, [Mission_DB].social AS Social, [Mission_DB].start AS Start, [Mission_DB].end AS [End] 
   FROM Connective_DB 
@@ -42,7 +42,7 @@ FROM (
   ON [Connective_DB].social=[Mission_DB].social 
   WHERE [Mission_DB].social Is Not Null
   )  AS T1
-WHERE T1.End >= #12/25/1991# AND T1.Emplid IN (SELECT emplid FROM [Personnel_DB]);
+WHERE T1.End >= #12/25/1991# AND T1.Emplid IN (SELECT emplid FROM [Personnel_DB]);`
 
 
 
