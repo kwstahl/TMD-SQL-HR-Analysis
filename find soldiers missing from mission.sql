@@ -4,4 +4,4 @@ FROM (
   FROM Connective_DB LEFT JOIN Mission_DB ON [Connective_DB].social=[Mission_DB].social 
   WHERE [Mission_DB].social Is Not Null
   )  AS T1
-WHERE T1.Emplid NOT IN (SELECT emplid FROM Personnel_DB) and T1.End < #12/25/1991#;
+WHERE T1.Emplid NOT IN (SELECT emplid FROM Personnel_DB) and T1.End > #12/25/1991#;
