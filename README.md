@@ -24,13 +24,25 @@ Each soldier's name, start date, and end dates are also pulled from the Personne
 `
 SELECT Emplid, Name, Social, Start, End
  FROM  T1
- WHERE T1.Emplid NOT IN (SELECT emplid FROM Personnel_DB) and T1.End > #12/25/1991#;
+ WHERE T1.Emplid NOT IN (SELECT emplid FROM Personnel_DB) and T1.End < #12/25/1991#;
  `
 
-Now that the sub query is aliased, the Emplid, Name, Social, Start and End dates can be pulled from T1 and checked. Each Emplid inside the T1 sub-query is checked to see if it has been entered into the Personnel_DB, or not. The query also checks the end date: if the end date is greater than "today's" date, then the record is pulled. Otherwise, the record is filtered. This is because the soldier is already off of the mission (his end date is greater than today's date), then he does not need to be entered into the Personnel_DB. In fact, there is another set of queries to pull these soldiers that have never been entered, but that is a different issue.
+Now that the sub query is aliased, the Emplid, Name, Social, Start and End dates can be pulled from T1 and checked. Each Emplid inside the T1 sub-query is checked to see if it has been entered into the Personnel_DB, or not. The query also checks the end date: if the end date is less than "today's" date, then the record is pulled, otherwise, the record is filtered. This is because the soldier is already off of the mission (his end date is greater than today's date), then he does not need to be entered into the Personnel_DB. In fact, there is another set of queries to pull these soldiers that have never been entered, but that is a different issue.
 
 
+##Find soldiers to be removed from mission on Personnel_DB
 
+To find all soldiers that need to be removed from the Personnel_DB (i.e. their time is greater than "today's date", but they are still on the Personnel_DB), the process is essentially the same except for the difference that the script checks if each record is still in Personnel_DB, and if the time is greater than "today's" date.
+
+SELECT Emplid, Name, Social, Start, End
+FROM (
+  SELECT [Connective_DB].emplid AS Emplid, [Mission_DB].name AS Name, [Mission_DB].social AS Social, [Mission_DB].start AS Start, [Mission_DB].end AS [End] 
+  FROM Connective_DB 
+  LEFT JOIN Mission_DB 
+  ON [Connective_DB].social=[Mission_DB].social 
+  WHERE [Mission_DB].social Is Not Null
+  )  AS T1
+WHERE T1.End >= #12/25/1991# AND T1.Emplid IN (SELECT emplid FROM [Personnel_DB]);
 
 
 
