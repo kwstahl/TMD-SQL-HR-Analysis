@@ -24,10 +24,13 @@ Each soldier's name, start date, and end dates are also pulled from the Personne
 `
 SELECT Emplid, Name, Social, Start, End
  FROM  T1
- WHERE T1.Emplid NOT IN (SELECT emplid FROM Personnel_DB) and T1.End < #12/25/1991#;
+ WHERE T1.Emplid NOT IN (SELECT emplid FROM Personnel_DB) and T1.End > #12/25/1991#;
  `
 
-Now that the sub query is aliased, the Emplid, Name, Social, Start and End dates can be pulled from T1 and checked. Each Emplid inside the T1 sub-query is checked to see if it has been entered into the Personnel_DB, or not. The query also checks the end date: if the end date is less than "today's" date, then the record is pulled. Otherwise, the record is filtered. This is because the soldier is already off of the mission (his end date is greater than today's date), then he does not need to be entered into the Personnel_DB. In fact, there is another set of queries to pull these soldiers that have never been entered, but that is a different issue.
+Now that the sub query is aliased, the Emplid, Name, Social, Start and End dates can be pulled from T1 and checked. Each Emplid inside the T1 sub-query is checked to see if it has been entered into the Personnel_DB, or not. The query also checks the end date: if the end date is greater than "today's" date, then the record is pulled. Otherwise, the record is filtered. This is because the soldier is already off of the mission (his end date is greater than today's date), then he does not need to be entered into the Personnel_DB. In fact, there is another set of queries to pull these soldiers that have never been entered, but that is a different issue.
+
+
+
 
 
 
